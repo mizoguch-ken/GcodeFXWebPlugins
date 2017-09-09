@@ -8,4 +8,5 @@
 ## Usage 使い方
  * Run with Javascript  
  Javascriptで実行する  
- e.g. act.exec('notepad');
+ e.g.  
+    act.exec('notepad');
