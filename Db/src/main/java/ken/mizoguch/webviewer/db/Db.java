@@ -37,8 +37,9 @@ public class Db implements WebViewerPlugin {
 
     /**
      *
+     * @throws java.lang.ClassNotFoundException
      */
-    public Db() {
+    public Db() throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         dbHost_ = null;
         dbPort_ = null;
