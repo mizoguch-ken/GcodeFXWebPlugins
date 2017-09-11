@@ -39,6 +39,7 @@ public class Db implements WebViewerPlugin {
      *
      */
     public Db() {
+        Class.forName("org.postgresql.Driver");
         dbHost_ = null;
         dbPort_ = null;
         dbName_ = null;
