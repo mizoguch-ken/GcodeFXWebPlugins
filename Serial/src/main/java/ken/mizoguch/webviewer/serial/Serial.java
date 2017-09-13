@@ -82,6 +82,13 @@ public class Serial implements WebViewerPlugin, SerialPortEventListener {
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param state
      */
     public void setState(Worker.State state) {

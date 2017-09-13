@@ -35,6 +35,13 @@ public class DevTools implements WebViewerPlugin {
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param state
      */
     public void setConsoleOut(boolean state) {

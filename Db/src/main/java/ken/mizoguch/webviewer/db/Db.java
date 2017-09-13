@@ -50,6 +50,13 @@ public class Db implements WebViewerPlugin {
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param host
      * @param port
      * @param name

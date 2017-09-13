@@ -51,6 +51,13 @@ public class Ftp implements WebViewerPlugin {
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param charset
      */
     public void charset(String charset) {

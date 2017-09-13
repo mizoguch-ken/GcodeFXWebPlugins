@@ -55,6 +55,13 @@ public class File implements WebViewerPlugin {
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @return
      */
     public String getNewLineCharacter() {

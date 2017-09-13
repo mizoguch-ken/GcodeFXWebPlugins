@@ -72,6 +72,13 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param func
      */
     public void setNotifyResult(String func) {

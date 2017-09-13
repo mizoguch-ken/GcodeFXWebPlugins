@@ -195,6 +195,13 @@ public class OnlineArt extends Service<Void> implements WebViewerPlugin, OnlineA
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param listener
      */
     public void addOnlineArtListener(OnlineArtListener listener) {

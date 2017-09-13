@@ -78,6 +78,13 @@ public class CapAi implements WebViewerPlugin, LinkBoxServerListener, LinkBoxCli
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param func
      */
     public void setNotifyServerStart(String func) {

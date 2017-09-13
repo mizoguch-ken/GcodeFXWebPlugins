@@ -67,6 +67,13 @@ public class Gcode implements GcodeFXWebViewerPlugin, GcodeVirtualMachinePluginL
 
     /**
      *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
      * @param func
      */
     public void setNotifyStart(String func) {
