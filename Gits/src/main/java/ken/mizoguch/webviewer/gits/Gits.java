@@ -115,10 +115,26 @@ public class Gits implements WebViewerPlugin {
     private Git git_;
     private final Gson gson_ = new Gson();
 
+    /**
+     *
+     */
     public Gits() {
         git_ = null;
     }
 
+    /**
+     *
+     */
+    public void licenses() {
+        new Licenses().show();
+    }
+
+    /**
+     *
+     * @param dir
+     * @return
+     * @throws IOException
+     */
     public Boolean open(String dir) throws IOException {
         if (dir != null) {
             return ((git_ = Git.open(Paths.get(dir).toFile())) != null);
@@ -126,6 +142,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Boolean cloneRepository(String commandJson) throws GitAPIException {
         if (commandJson != null) {
             JsonElement jsonElement = gson_.fromJson(commandJson, JsonElement.class);
@@ -185,6 +207,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public RevCommit commit(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -249,6 +277,13 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws IOException
+     * @throws GitAPIException
+     */
     public Iterable<RevCommit> log(String commandJson) throws IOException, GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -278,6 +313,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public MergeResult merge(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -307,6 +348,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public PullResult pull(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -350,6 +397,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Ref branchCreate(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -376,6 +429,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public List<String> branchDelete(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -396,6 +455,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public List<Ref> branchList(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -416,6 +481,10 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @return @throws GitAPIException
+     */
     public List<Ref> tagList() throws GitAPIException {
         if (git_ != null) {
             ListTagCommand command = git_.tagList();
@@ -424,6 +493,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Ref branchRename(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -447,6 +522,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public DirCache add(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -470,6 +551,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Ref tag(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -502,6 +589,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public FetchResult fetch(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -551,6 +644,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Iterable<PushResult> push(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -606,6 +705,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public CherryPickResult cherryPick(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -632,6 +737,15 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws UnmergedPathsException
+     * @throws ConcurrentRefUpdateException
+     * @throws WrongRepositoryStateException
+     * @throws GitAPIException
+     */
     public RevCommit revert(String commandJson) throws UnmergedPathsException, ConcurrentRefUpdateException, WrongRepositoryStateException, GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -652,6 +766,13 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws RefNotFoundException
+     * @throws GitAPIException
+     */
     public RebaseResult rebase(String commandJson) throws RefNotFoundException, GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -681,6 +802,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public DirCache rm(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -704,6 +831,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Ref checkout(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -742,6 +875,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Ref reset(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -768,6 +907,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Status status(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -788,6 +933,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public OutputStream archive(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -817,6 +968,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Note notesAdd(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -840,6 +997,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Note notesRemove(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -860,6 +1023,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public List<Note> notesList(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -880,6 +1049,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Note notesShow(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -900,6 +1075,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Collection<Ref> lsRemote(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -943,6 +1124,13 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws NoWorkTreeException
+     * @throws GitAPIException
+     */
     public Set<String> clean(String commandJson) throws NoWorkTreeException, GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -972,6 +1160,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public BlameResult blame(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -995,6 +1189,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Collection<ReflogEntry> reflog(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1015,6 +1215,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public List<DiffEntry> diff(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1050,6 +1256,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public List<String> tagDelete(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1070,6 +1282,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Repository submoduleAdd(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1110,6 +1328,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Collection<String> submoduleInit(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1130,6 +1354,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Map<String, SubmoduleStatus> submoduleStatus(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1150,6 +1380,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Map<String, String> submoduleSync(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1170,6 +1406,19 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws NoHeadException
+     * @throws ConcurrentRefUpdateException
+     * @throws CheckoutConflictException
+     * @throws InvalidMergeHeadsException
+     * @throws WrongRepositoryStateException
+     * @throws NoMessageException
+     * @throws RefNotFoundException
+     * @throws GitAPIException
+     */
     public Collection<String> submoduleUpdate(String commandJson) throws NoHeadException, ConcurrentRefUpdateException, CheckoutConflictException, InvalidMergeHeadsException, WrongRepositoryStateException, NoMessageException, RefNotFoundException, GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1207,6 +1456,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Collection<RevCommit> stashList(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1220,6 +1475,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public RevCommit stashCreate(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1249,6 +1510,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public ObjectId stashApply(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1278,6 +1545,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public ObjectId stashDrop(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1301,6 +1574,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public ApplyResult apply(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1314,6 +1593,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Properties gc(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1343,6 +1628,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public Map<ObjectId, String> nameRev(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1363,6 +1654,14 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws IOException
+     * @throws RefNotFoundException
+     * @throws GitAPIException
+     */
     public String describe(String commandJson) throws IOException, RefNotFoundException, GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1386,6 +1685,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public List<RemoteConfig> remoteList(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1399,6 +1704,14 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     * @throws GitAPIException
+     * @throws GitAPIException
+     */
     public RemoteConfig remoteAdd(String commandJson) throws GitAPIException, GitAPIException, GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1419,6 +1732,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public RemoteConfig remoteRemove(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1439,6 +1758,12 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param commandJson
+     * @return
+     * @throws GitAPIException
+     */
     public RemoteConfig remoteSetUrl(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
@@ -1462,20 +1787,35 @@ public class Gits implements WebViewerPlugin {
         return null;
     }
 
+    /**
+     *
+     * @param webViewer
+     */
     @Override
     public void initialize(WebViewerPlugin webViewer) {
         webViewer_ = webViewer;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String functionName() {
         return FUNCTION_NAME;
     }
 
+    /**
+     *
+     * @param state
+     */
     @Override
     public void state(Worker.State state) {
     }
 
+    /**
+     *
+     */
     @Override
     public void close() {
         if (git_ != null) {
@@ -1484,31 +1824,58 @@ public class Gits implements WebViewerPlugin {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Stage stage() {
         return webViewer_.stage();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Image> icons() {
         return webViewer_.icons();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public WebEngine webEngine() {
         return webViewer_.webEngine();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Path webPath() {
         return webViewer_.webPath();
     }
 
+    /**
+     *
+     * @param name
+     * @param throwable
+     */
     @Override
     public void writeStackTrace(String name, Throwable throwable) {
         webViewer_.writeStackTrace(name, throwable);
     }
 
+    /**
+     *
+     * @param name
+     * @param msg
+     * @param err
+     */
     @Override
     public void write(String name, String msg, boolean err) {
         webViewer_.write(name, msg, err);
