@@ -1709,10 +1709,8 @@ public class Gits implements WebViewerPlugin {
      * @param commandJson
      * @return
      * @throws GitAPIException
-     * @throws GitAPIException
-     * @throws GitAPIException
      */
-    public RemoteConfig remoteAdd(String commandJson) throws GitAPIException, GitAPIException, GitAPIException {
+    public RemoteConfig remoteAdd(String commandJson) throws GitAPIException {
         if (git_ != null) {
             if (commandJson != null) {
                 JsonElement jsonElement = gson_.fromJson(commandJson, JsonElement.class);
