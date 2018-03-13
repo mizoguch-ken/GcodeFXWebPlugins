@@ -75,23 +75,25 @@ public class DevToolsServer extends Service<Void> {
      * @param value
      */
     public void consoleAPICalled(String type, String value) {
-        if (isRunning()) {
-            JsonObject runtime = new JsonObject();
-            JsonObject consoleAPICalled = new JsonObject();
-            JsonArray args = new JsonArray();
-            JsonObject remoteObject = new JsonObject();
+        if (devToolsServerHander_ != null) {
+            if (isRunning()) {
+                JsonObject runtime = new JsonObject();
+                JsonObject consoleAPICalled = new JsonObject();
+                JsonArray args = new JsonArray();
+                JsonObject remoteObject = new JsonObject();
 
-            runtime.addProperty("method", "Runtime.consoleAPICalled");
-            runtime.add("params", consoleAPICalled);
-            consoleAPICalled.addProperty("type", type);
-            consoleAPICalled.add("args", args);
-            consoleAPICalled.addProperty("executionContextId", -1);
-            consoleAPICalled.addProperty("timestamp", System.currentTimeMillis());
-            args.add(remoteObject);
-            remoteObject.addProperty("type", "string");
-            remoteObject.addProperty("value", value);
+                runtime.addProperty("method", "Runtime.consoleAPICalled");
+                runtime.add("params", consoleAPICalled);
+                consoleAPICalled.addProperty("type", type);
+                consoleAPICalled.add("args", args);
+                consoleAPICalled.addProperty("executionContextId", -1);
+                consoleAPICalled.addProperty("timestamp", System.currentTimeMillis());
+                args.add(remoteObject);
+                remoteObject.addProperty("type", "string");
+                remoteObject.addProperty("value", value);
 
-            devToolsServerHander_.sendMessage(gson_.toJson(runtime));
+                devToolsServerHander_.sendMessage(gson_.toJson(runtime));
+            }
         }
     }
 
