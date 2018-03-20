@@ -48,6 +48,8 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
     private final BlockingQueue<String> notify_;
     private String stringOnChangeSoemEcatThread_;
     private boolean isOnChangeSoemEcatThread_;
+    private String funcErrorSafeOpError_, funcErrorLost_, funcWarningSafeOp_,
+            funcMessageReconfigured_, funcMessageRecovered_, funcMessageFound_, funcMessageAllSlavesResumedOperational_;
 
     /**
      *
@@ -60,6 +62,13 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
         notify_ = new LinkedBlockingQueue<>();
         stringOnChangeSoemEcatThread_ = null;
         isOnChangeSoemEcatThread_ = false;
+        funcErrorSafeOpError_ = null;
+        funcErrorLost_ = null;
+        funcWarningSafeOp_ = null;
+        funcMessageReconfigured_ = null;
+        funcMessageRecovered_ = null;
+        funcMessageFound_ = null;
+        funcMessageAllSlavesResumedOperational_ = null;
     }
 
     /**
@@ -141,6 +150,62 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public Boolean setNotifyCheck(boolean state) {
         return soem_.setNotifyCheck(state);
+    }
+
+    /**
+     *
+     * @param func
+     */
+    public void setNotifyErrorSafeOpError(String func) {
+        funcErrorSafeOpError_ = func;
+    }
+
+    /**
+     *
+     * @param func
+     */
+    public void setNotifyErrorLost(String func) {
+        funcErrorLost_ = func;
+    }
+
+    /**
+     *
+     * @param func
+     */
+    public void setNotifyWarningSafeOp(String func) {
+        funcWarningSafeOp_ = func;
+    }
+
+    /**
+     *
+     * @param func
+     */
+    public void setNotifyMessageReconfigured(String func) {
+        funcMessageReconfigured_ = func;
+    }
+
+    /**
+     *
+     * @param func
+     */
+    public void setNotifyMessageRecovered(String func) {
+        funcMessageRecovered_ = func;
+    }
+
+    /**
+     *
+     * @param func
+     */
+    public void setNotifyMessageFound(String func) {
+        funcMessageFound_ = func;
+    }
+
+    /**
+     *
+     * @param func
+     */
+    public void setNotifyMessageAllSlavesResumedOperational(String func) {
+        funcMessageAllSlavesResumedOperational_ = func;
     }
 
     /**
@@ -229,37 +294,51 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
 
     @Override
     public void errorSafeOpErrorSoemEcatCheck(int slave) {
-        webViewer_.write(FUNCTION_NAME, "ERROR : slave " + slave + " is in SAFE_OP + ERROR, attempting ack.", true);
+        if (funcErrorSafeOpError_ != null) {
+            webEngine_.executeScript(funcErrorSafeOpError_ + "(" + slave + ")");
+        }
     }
 
     @Override
     public void errorLostSoemEcatCheck(int slave) {
-        webViewer_.write(FUNCTION_NAME, "ERROR : slave " + slave + " lost", true);
+        if (funcErrorLost_ != null) {
+            webEngine_.executeScript(funcErrorLost_ + "(" + slave + ")");
+        }
     }
 
     @Override
     public void warningSafeOpSoemEcatCheck(int slave) {
-        webViewer_.write(FUNCTION_NAME, "WARNING : slave " + slave + " is in SAFE_OP, change to OPERATIONAL.", false);
+        if (funcWarningSafeOp_ != null) {
+            webEngine_.executeScript(funcWarningSafeOp_ + "(" + slave + ")");
+        }
     }
 
     @Override
     public void messageReconfiguredSoemEcatCheck(int slave) {
-        webViewer_.write(FUNCTION_NAME, "MESSAGE : slave " + slave + " reconfigured", false);
+        if (funcMessageReconfigured_ != null) {
+            webEngine_.executeScript(funcMessageReconfigured_ + "(" + slave + ")");
+        }
     }
 
     @Override
     public void messageRecoveredSoemEcatCheck(int slave) {
-        webViewer_.write(FUNCTION_NAME, "MESSAGE : slave " + slave + " recovered", false);
+        if (funcMessageRecovered_ != null) {
+            webEngine_.executeScript(funcMessageRecovered_ + "(" + slave + ")");
+        }
     }
 
     @Override
     public void messageFoundSoemEcatCheck(int slave) {
-        webViewer_.write(FUNCTION_NAME, "MESSAGE : slave " + slave + " found", false);
+        if (funcMessageFound_ != null) {
+            webEngine_.executeScript(funcMessageFound_ + "(" + slave + ")");
+        }
     }
 
     @Override
     public void messageAllSlavesResumedOperationalSoemEcatCheck() {
-        webViewer_.write(FUNCTION_NAME, "MESSAGE : all slaves resumed OPERATIONAL.", false);
+        if (funcMessageAllSlavesResumedOperational_ != null) {
+            webEngine_.executeScript(funcMessageAllSlavesResumedOperational_ + "()");
+        }
     }
 
     @Override
