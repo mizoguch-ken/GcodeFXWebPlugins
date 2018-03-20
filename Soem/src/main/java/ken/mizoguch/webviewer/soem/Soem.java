@@ -145,19 +145,16 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
 
     /**
      *
-     * @param state
-     * @return
-     */
-    public Boolean setNotifyCheck(boolean state) {
-        return soem_.setNotifyCheck(state);
-    }
-
-    /**
-     *
      * @param func
      */
     public void setNotifyErrorSafeOpError(String func) {
         funcErrorSafeOpError_ = func;
+        if ((funcErrorSafeOpError_ == null) && (funcErrorLost_ == null) && (funcWarningSafeOp_ == null)
+                && (funcMessageReconfigured_ == null) && (funcMessageRecovered_ == null) && (funcMessageFound_ == null) && (funcMessageAllSlavesResumedOperational_ == null)) {
+            soem_.setNotifyCheck(false);
+        } else {
+            soem_.setNotifyCheck(true);
+        }
     }
 
     /**
@@ -166,6 +163,12 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public void setNotifyErrorLost(String func) {
         funcErrorLost_ = func;
+        if ((funcErrorSafeOpError_ == null) && (funcErrorLost_ == null) && (funcWarningSafeOp_ == null)
+                && (funcMessageReconfigured_ == null) && (funcMessageRecovered_ == null) && (funcMessageFound_ == null) && (funcMessageAllSlavesResumedOperational_ == null)) {
+            soem_.setNotifyCheck(false);
+        } else {
+            soem_.setNotifyCheck(true);
+        }
     }
 
     /**
@@ -174,6 +177,12 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public void setNotifyWarningSafeOp(String func) {
         funcWarningSafeOp_ = func;
+        if ((funcErrorSafeOpError_ == null) && (funcErrorLost_ == null) && (funcWarningSafeOp_ == null)
+                && (funcMessageReconfigured_ == null) && (funcMessageRecovered_ == null) && (funcMessageFound_ == null) && (funcMessageAllSlavesResumedOperational_ == null)) {
+            soem_.setNotifyCheck(false);
+        } else {
+            soem_.setNotifyCheck(true);
+        }
     }
 
     /**
@@ -182,6 +191,12 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public void setNotifyMessageReconfigured(String func) {
         funcMessageReconfigured_ = func;
+        if ((funcErrorSafeOpError_ == null) && (funcErrorLost_ == null) && (funcWarningSafeOp_ == null)
+                && (funcMessageReconfigured_ == null) && (funcMessageRecovered_ == null) && (funcMessageFound_ == null) && (funcMessageAllSlavesResumedOperational_ == null)) {
+            soem_.setNotifyCheck(false);
+        } else {
+            soem_.setNotifyCheck(true);
+        }
     }
 
     /**
@@ -190,6 +205,12 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public void setNotifyMessageRecovered(String func) {
         funcMessageRecovered_ = func;
+        if ((funcErrorSafeOpError_ == null) && (funcErrorLost_ == null) && (funcWarningSafeOp_ == null)
+                && (funcMessageReconfigured_ == null) && (funcMessageRecovered_ == null) && (funcMessageFound_ == null) && (funcMessageAllSlavesResumedOperational_ == null)) {
+            soem_.setNotifyCheck(false);
+        } else {
+            soem_.setNotifyCheck(true);
+        }
     }
 
     /**
@@ -198,6 +219,12 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public void setNotifyMessageFound(String func) {
         funcMessageFound_ = func;
+        if ((funcErrorSafeOpError_ == null) && (funcErrorLost_ == null) && (funcWarningSafeOp_ == null)
+                && (funcMessageReconfigured_ == null) && (funcMessageRecovered_ == null) && (funcMessageFound_ == null) && (funcMessageAllSlavesResumedOperational_ == null)) {
+            soem_.setNotifyCheck(false);
+        } else {
+            soem_.setNotifyCheck(true);
+        }
     }
 
     /**
@@ -206,6 +233,12 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public void setNotifyMessageAllSlavesResumedOperational(String func) {
         funcMessageAllSlavesResumedOperational_ = func;
+        if ((funcErrorSafeOpError_ == null) && (funcErrorLost_ == null) && (funcWarningSafeOp_ == null)
+                && (funcMessageReconfigured_ == null) && (funcMessageRecovered_ == null) && (funcMessageFound_ == null) && (funcMessageAllSlavesResumedOperational_ == null)) {
+            soem_.setNotifyCheck(false);
+        } else {
+            soem_.setNotifyCheck(true);
+        }
     }
 
     /**
