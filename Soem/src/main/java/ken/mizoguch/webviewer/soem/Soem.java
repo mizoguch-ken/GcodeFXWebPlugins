@@ -334,51 +334,107 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
     }
 
     @Override
-    public void errorSafeOpErrorSoemEcatCheck(int slave) {
+    public void errorSafeOpErrorSoemEcatCheck(final int slave) {
         if (funcErrorSafeOpError_ != null) {
-            webEngine_.executeScript(funcErrorSafeOpError_ + "(" + slave + ")");
+            Platform.runLater(() -> {
+                if (state_ == Worker.State.SUCCEEDED) {
+                    try {
+                        webEngine_.executeScript(funcErrorSafeOpError_ + "(" + slave + ")");
+                    } catch (JSException | NullPointerException ex) {
+                        webViewer_.writeStackTrace(FUNCTION_NAME, ex);
+                    }
+                }
+            });
         }
     }
 
     @Override
-    public void errorLostSoemEcatCheck(int slave) {
+    public void errorLostSoemEcatCheck(final int slave) {
         if (funcErrorLost_ != null) {
-            webEngine_.executeScript(funcErrorLost_ + "(" + slave + ")");
+            Platform.runLater(() -> {
+                if (state_ == Worker.State.SUCCEEDED) {
+                    try {
+                        webEngine_.executeScript(funcErrorLost_ + "(" + slave + ")");
+                    } catch (JSException | NullPointerException ex) {
+                        webViewer_.writeStackTrace(FUNCTION_NAME, ex);
+                    }
+                }
+            });
         }
     }
 
     @Override
-    public void warningSafeOpSoemEcatCheck(int slave) {
+    public void warningSafeOpSoemEcatCheck(final int slave) {
         if (funcWarningSafeOp_ != null) {
-            webEngine_.executeScript(funcWarningSafeOp_ + "(" + slave + ")");
+            Platform.runLater(() -> {
+                if (state_ == Worker.State.SUCCEEDED) {
+                    try {
+                        webEngine_.executeScript(funcWarningSafeOp_ + "(" + slave + ")");
+                    } catch (JSException | NullPointerException ex) {
+                        webViewer_.writeStackTrace(FUNCTION_NAME, ex);
+                    }
+                }
+            });
         }
     }
 
     @Override
-    public void messageReconfiguredSoemEcatCheck(int slave) {
+    public void messageReconfiguredSoemEcatCheck(final int slave) {
         if (funcMessageReconfigured_ != null) {
-            webEngine_.executeScript(funcMessageReconfigured_ + "(" + slave + ")");
+            Platform.runLater(() -> {
+                if (state_ == Worker.State.SUCCEEDED) {
+                    try {
+                        webEngine_.executeScript(funcMessageReconfigured_ + "(" + slave + ")");
+                    } catch (JSException | NullPointerException ex) {
+                        webViewer_.writeStackTrace(FUNCTION_NAME, ex);
+                    }
+                }
+            });
         }
     }
 
     @Override
-    public void messageRecoveredSoemEcatCheck(int slave) {
+    public void messageRecoveredSoemEcatCheck(final int slave) {
         if (funcMessageRecovered_ != null) {
-            webEngine_.executeScript(funcMessageRecovered_ + "(" + slave + ")");
+            Platform.runLater(() -> {
+                if (state_ == Worker.State.SUCCEEDED) {
+                    try {
+                        webEngine_.executeScript(funcMessageRecovered_ + "(" + slave + ")");
+                    } catch (JSException | NullPointerException ex) {
+                        webViewer_.writeStackTrace(FUNCTION_NAME, ex);
+                    }
+                }
+            });
         }
     }
 
     @Override
-    public void messageFoundSoemEcatCheck(int slave) {
+    public void messageFoundSoemEcatCheck(final int slave) {
         if (funcMessageFound_ != null) {
-            webEngine_.executeScript(funcMessageFound_ + "(" + slave + ")");
+            Platform.runLater(() -> {
+                if (state_ == Worker.State.SUCCEEDED) {
+                    try {
+                        webEngine_.executeScript(funcMessageFound_ + "(" + slave + ")");
+                    } catch (JSException | NullPointerException ex) {
+                        webViewer_.writeStackTrace(FUNCTION_NAME, ex);
+                    }
+                }
+            });
         }
     }
 
     @Override
     public void messageAllSlavesResumedOperationalSoemEcatCheck() {
         if (funcMessageAllSlavesResumedOperational_ != null) {
-            webEngine_.executeScript(funcMessageAllSlavesResumedOperational_ + "()");
+            Platform.runLater(() -> {
+                if (state_ == Worker.State.SUCCEEDED) {
+                    try {
+                        webEngine_.executeScript(funcMessageAllSlavesResumedOperational_ + "()");
+                    } catch (JSException | NullPointerException ex) {
+                        webViewer_.writeStackTrace(FUNCTION_NAME, ex);
+                    }
+                }
+            });
         }
     }
 
