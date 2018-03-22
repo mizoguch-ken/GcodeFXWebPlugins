@@ -243,6 +243,14 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
 
     /**
      *
+     * @return
+     */
+    public Integer slavecount() {
+        return soem_.slavecount();
+    }
+
+    /**
+     *
      * @param slave
      * @param bitsOffset
      * @param bitsMask
