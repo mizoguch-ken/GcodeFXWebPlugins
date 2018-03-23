@@ -20,7 +20,6 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
-import java.util.Locale;
 import javafx.application.Platform;
 
 /**
@@ -114,11 +113,11 @@ public class DevToolsServerHander extends ChannelInboundHandlerAdapter {
             HttpHeaders httpHeaders = httpRequest.headers();
             boolean isUpgrade = false;
             if (httpHeaders.contains("Connection")) {
-                if (httpHeaders.get("Connection").toLowerCase(Locale.getDefault()).equals("upgrade")) {
+                if (httpHeaders.get("Connection").equals("upgrade")) {
                     isUpgrade = true;
                 }
             } else if (httpHeaders.contains("Upgrade")) {
-                if (httpHeaders.get("Upgrade").toLowerCase(Locale.getDefault()).equals("websocket")) {
+                if (httpHeaders.get("Upgrade").equals("websocket")) {
                     isUpgrade = true;
                 }
             }
