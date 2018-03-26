@@ -256,7 +256,7 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      * @param bitsMask
      * @return
      */
-    public Integer in(int slave, long bitsOffset, int bitsMask) {
+    public Long in(int slave, long bitsOffset, long bitsMask) {
         return soem_.in(slave, bitsOffset, bitsMask);
     }
 
@@ -268,7 +268,7 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      * @param func
      * @return
      */
-    public String notify(int slave, long bitsOffset, int bitsMask, String func) {
+    public String notify(int slave, long bitsOffset, long bitsMask, String func) {
         if (func == null) {
             soem_.notify(slave, bitsOffset, bitsMask, false);
             return null;
@@ -288,7 +288,7 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      * @param value
      * @return
      */
-    public Integer out(int slave, long bitsOffset, int bitsMask, int value) {
+    public Long out(int slave, long bitsOffset, long bitsMask, long value) {
         return soem_.out(slave, bitsOffset, bitsMask, value);
     }
 
