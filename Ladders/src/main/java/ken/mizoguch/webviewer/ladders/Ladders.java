@@ -65,7 +65,7 @@ public class Ladders implements GcodeFXWebViewerPlugin {
      * @param bitsMask
      * @return
      */
-    public Boolean registerSoemIn(String address, int slave, long bitsOffset, int bitsMask) {
+    public Boolean registerSoemIn(String address, int slave, long bitsOffset, long bitsMask) {
         return ladders_.registerIn(webViewer_.soem(), address, slave, bitsOffset, bitsMask);
     }
 
@@ -77,7 +77,7 @@ public class Ladders implements GcodeFXWebViewerPlugin {
      * @param bitsMask
      * @return
      */
-    public Boolean registerSoemOut(String address, int slave, long bitsOffset, int bitsMask) {
+    public Boolean registerSoemOut(String address, int slave, long bitsOffset, long bitsMask) {
         return ladders_.registerOut(webViewer_.soem(), address, slave, bitsOffset, bitsMask);
     }
 
