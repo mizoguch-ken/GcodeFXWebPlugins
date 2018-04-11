@@ -6,6 +6,7 @@
 package ken.mizoguch.webviewer.ladders;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import javafx.concurrent.Worker;
 import javafx.scene.image.Image;
@@ -41,6 +42,38 @@ public class Ladders implements GcodeFXWebViewerPlugin {
         webEngine_ = null;
         state_ = Worker.State.READY;
         ladders_ = null;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Integer getHistoryGeneration() {
+        return ladders_.getHistoryGeneration();
+    }
+
+    /**
+     *
+     * @param historyGeneration
+     */
+    public void setHistoryGeneration(int historyGeneration) {
+        ladders_.setHistoryGeneration(historyGeneration);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Long getIdealCycleTime() {
+        return ladders_.getIdealCycleTime();
+    }
+
+    /**
+     *
+     * @param idealCycleTime
+     */
+    public void setIdealCycleTime(long idealCycleTime) {
+        ladders_.setIdealCycleTime(idealCycleTime);
     }
 
     /**
@@ -104,6 +137,62 @@ public class Ladders implements GcodeFXWebViewerPlugin {
      */
     public void setValue(String address, double value) {
         ladders_.setValue(address, value);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Boolean connect() {
+        return ladders_.connectLadder();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Boolean run() {
+        return ladders_.runStartLadder();
+    }
+
+    /**
+     *
+     */
+    public void stop() {
+        ladders_.stopLadder();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Boolean fileNew() {
+        return ladders_.fileNew();
+    }
+
+    /**
+     *
+     * @param path
+     * @return
+     */
+    public Boolean fileOpen(String path) {
+        return ladders_.fileOpen(Paths.get(path));
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Boolean fileSave() {
+        return ladders_.fileSave();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getFileName() {
+        return ladders_.getFileName();
     }
 
     @Override
