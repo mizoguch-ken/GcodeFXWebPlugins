@@ -7,12 +7,8 @@ package ken.mizoguch.webviewer.soem;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.LinkedBlockingQueue;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.scene.image.Image;
@@ -44,10 +40,6 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
 
     private SoemPlugin soem_;
 
-    private final Map<Long, String> funcNotify_;
-    private final BlockingQueue<String> notify_;
-    private String stringOnChangeSoemEcatThread_;
-    private boolean isOnChangeSoemEcatThread_;
     private String funcErrorSafeOpError_, funcErrorLost_, funcWarningSafeOp_,
             funcMessageReconfigured_, funcMessageRecovered_, funcMessageFound_, funcMessageAllSlavesResumedOperational_;
 
@@ -58,10 +50,6 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
         webEngine_ = null;
         state_ = Worker.State.READY;
         soem_ = null;
-        funcNotify_ = new HashMap<>();
-        notify_ = new LinkedBlockingQueue<>();
-        stringOnChangeSoemEcatThread_ = null;
-        isOnChangeSoemEcatThread_ = false;
         funcErrorSafeOpError_ = null;
         funcErrorLost_ = null;
         funcWarningSafeOp_ = null;
@@ -291,19 +279,10 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      * @param slave
      * @param bitsOffset
      * @param bitsMask
-     * @param func
      * @return
      */
-    public String notify(int slave, long bitsOffset, long bitsMask, String func) {
-        if (func == null) {
-            soem_.notify(slave, bitsOffset, bitsMask, false);
-            return null;
-        }
-        Long ret = soem_.notify(slave, bitsOffset, bitsMask, true);
-        if (ret != null) {
-            return funcNotify_.put(ret, func);
-        }
-        return null;
+    public Long outs(int slave, long bitsOffset, long bitsMask) {
+        return soem_.out(slave, bitsOffset, bitsMask);
     }
 
     /**
@@ -335,28 +314,6 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public String slaveinfo(String ifname, boolean printSDO, boolean printMAP) {
         return soem_.slaveinfo(ifname, printSDO, printMAP);
-    }
-
-    @Override
-    public void onChangeSoemEcatThread(long address, int value) {
-        if (funcNotify_.containsKey(address)) {
-            notify_.offer(funcNotify_.get(address) + "('" + value + "');");
-            if (!isOnChangeSoemEcatThread_) {
-                isOnChangeSoemEcatThread_ = true;
-                Platform.runLater(() -> {
-                    while ((stringOnChangeSoemEcatThread_ = notify_.poll()) != null) {
-                        if (state_ == Worker.State.SUCCEEDED) {
-                            try {
-                                webEngine_.executeScript(stringOnChangeSoemEcatThread_);
-                            } catch (JSException | NullPointerException ex) {
-                                webViewer_.writeStackTrace(FUNCTION_NAME, ex);
-                            }
-                        }
-                    }
-                    isOnChangeSoemEcatThread_ = false;
-                });
-            }
-        }
     }
 
     @Override
