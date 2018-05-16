@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -43,12 +44,14 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
 
     private WebEngine webEngine_;
     private Worker.State state_;
+
     private OpenCVFrameGrabber webcam_;
     private final Stage webcamStage_;
     private final BorderPane webcamPane_;
     private final ImageView webcamImageView_;
     private String funcResult_;
     private Image webcamImage_;
+    private String webcamImageType_;
     private BufferedImage webcamBufferedImage_;
     private String webcamResultImage_;
     private boolean isPlay_, isUpdateView_;
@@ -59,6 +62,7 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
     public WebCam() {
         webEngine_ = null;
         state_ = Worker.State.READY;
+
         webcam_ = null;
         webcamStage_ = new Stage(StageStyle.DECORATED);
         webcamPane_ = new BorderPane();
@@ -67,6 +71,11 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
         webcamStage_.setScene(new Scene(webcamPane_));
         webcamStage_.setResizable(false);
         funcResult_ = null;
+        webcamImage_ = null;
+        webcamImageType_ = "jpeg";
+        webcamBufferedImage_ = null;
+        webcamResultImage_ = null;
+        isPlay_ = false;
         isUpdateView_ = false;
     }
 
@@ -83,6 +92,35 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
      */
     public void setNotifyResult(String func) {
         funcResult_ = func;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getImageType() {
+        return webcamImageType_;
+    }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
+    public Boolean setImageType(String type) {
+        if (type != null) {
+            type = type.trim().toLowerCase(Locale.getDefault());
+            String[] suffixes = ImageIO.getWriterFileSuffixes();
+
+            for (String suffixe : suffixes) {
+                if (suffixe.equals(type)) {
+                    webcamImageType_ = suffixe;
+                    return true;
+                }
+            }
+            return false;
+        }
+        return null;
     }
 
     /**
@@ -394,8 +432,8 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
                             }
 
                             if (funcResult_ != null) {
-                                ImageIO.write(webcamBufferedImage_, "png", arrayOutputStream);
-                                webcamResultImage_ = "data:image/png;base64," + Base64.getEncoder().encodeToString(arrayOutputStream.toByteArray());
+                                ImageIO.write(webcamBufferedImage_, webcamImageType_, arrayOutputStream);
+                                webcamResultImage_ = "data:image/" + webcamImageType_ + ";base64," + Base64.getEncoder().encodeToString(arrayOutputStream.toByteArray());
                                 arrayOutputStream.reset();
 
                                 Platform.runLater(() -> {
