@@ -5,6 +5,8 @@
  */
 package ken.mizoguch.webviewer.soem;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -25,6 +27,7 @@ import ken.mizoguch.webviewer.plugin.gcodefx.StageSettingsPlugin;
 import ken.mizoguch.webviewer.plugin.gcodefx.VirtualMachineSettingsPlugin;
 import ken.mizoguch.webviewer.plugin.gcodefx.WebEditorPlugin;
 import netscape.javascript.JSException;
+import netscape.javascript.JSObject;
 
 /**
  *
@@ -261,6 +264,68 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      */
     public Boolean docheckstate() {
         return soem_.docheckstate();
+    }
+
+    /**
+     *
+     * @param slave
+     * @param index
+     * @param subIndex
+     * @param byteSize
+     * @return
+     */
+    public Byte[] sdoRead(int slave, int index, int subIndex, int byteSize) {
+        return soem_.sdoRead(slave, index, subIndex, byteSize);
+    }
+
+    /**
+     *
+     * @param slave
+     * @param index
+     * @param subIndex
+     * @param byteSize
+     * @param value
+     * @return
+     */
+    public Integer sdoWrite(int slave, int index, int subIndex, int byteSize, Object value) {
+        byte[] bytes = null;
+
+        if (value instanceof Number) {
+            switch (byteSize) {
+                case 1:
+                    bytes = ByteBuffer.allocate(byteSize).order(ByteOrder.LITTLE_ENDIAN).put(((Number) value).byteValue()).array();
+                    break;
+                case 2:
+                    bytes = ByteBuffer.allocate(byteSize).order(ByteOrder.LITTLE_ENDIAN).putShort(((Number) value).shortValue()).array();
+                    break;
+                case 4:
+                    bytes = ByteBuffer.allocate(byteSize).order(ByteOrder.LITTLE_ENDIAN).putInt(((Number) value).intValue()).array();
+                    break;
+                case 8:
+                    bytes = ByteBuffer.allocate(byteSize).order(ByteOrder.LITTLE_ENDIAN).putLong(((Number) value).longValue()).array();
+                    break;
+            }
+        } else if (value instanceof JSObject) {
+            Object length = ((JSObject) value).getMember("length");
+
+            if (length instanceof Number) {
+                Object buf;
+
+                bytes = new byte[((Number) length).intValue()];
+                for (int i = 0; i < bytes.length; i++) {
+                    buf = ((JSObject) value).getSlot(i);
+                    if (buf instanceof Number) {
+                        bytes[i] = ((Number) buf).byteValue();
+                    }
+                }
+            }
+        }
+
+        if (bytes != null) {
+            return soem_.sdoWrite(slave, index, subIndex, byteSize, bytes);
+        }
+
+        return null;
     }
 
     /**
