@@ -3,7 +3,7 @@
  * Plug-in for communication with CapAi.  
  CapAiとの通信のためのプラグイン
 ## Functions 関数
- * void void capai.licenses();
+ * void void licenses();
  * void setNotifyServerStart(String func) ;
  * void setNotifyServerStop(String func);
  * void setNotifyServerRequest(String func);
