@@ -11,8 +11,10 @@
  Javascriptで実行する  
  
  e.g.  
-    db.set('192.168.1.100', '5432', 'db', 'postgres', 'postgres');
-    var result = db.query('select id from tbl;');
-    if (result) {
-	  var data = JSON.parse(result);
-    }
+```
+db.set('192.168.1.100', '5432', 'db', 'postgres', 'postgres');
+var result = db.query('select id from tbl;');
+if (result) {
+  var data = JSON.parse(result);
+}
+```
