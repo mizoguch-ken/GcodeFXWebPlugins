@@ -1,7 +1,7 @@
-# GcodeFXWebPlugins Serial
+# GcodeFXWebPlugins Soem
 ## Overview 概要
- * Serial control.  
- シリアル制御
+ * SOEM control.  
+ SOEM制御
 ## Functions 関数
  * Boolean load(String libraryPath);
  * Boolean init(int size);
