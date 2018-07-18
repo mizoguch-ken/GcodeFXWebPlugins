@@ -9,4 +9,6 @@
  * Run with Javascript  
  Javascriptで実行する  
  e.g.  
-    act.exec('notepad');
+ ```
+act.exec('notepad');
+```
