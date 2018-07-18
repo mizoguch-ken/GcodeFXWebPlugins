@@ -45,5 +45,8 @@
 ## Usage 使い方
  * Run with Javascript  
  Javascriptで実行する  
- e.g.  
-    capai.setL1('DOWN', 'GREEN', 'LIGHT', 'OFF', 'NONE', 'OFF', 'OFF', 'OFF', [{unit:2001,view:'3'}]);
+ 
+e.g.  
+```
+capai.setL1('DOWN', 'GREEN', 'LIGHT', 'OFF', 'NONE', 'OFF', 'OFF', 'OFF', [{unit: 2001, view: '3'}]);
+```
