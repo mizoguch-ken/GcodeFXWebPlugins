@@ -33,5 +33,5 @@
  
 e.g.  
 ```
-file.readAsText('title', 'all file', '*.*');
+file.readAsText('/path/to/file', 'UTF-8');
 ```
