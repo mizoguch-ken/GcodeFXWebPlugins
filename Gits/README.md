@@ -61,5 +61,5 @@
 e.g.  
 ```
 gits.open('/path/to/dir');
-gits.pull({credentials: {username: name, password: pass}});
+gits.pull({credentials: {username: 'name', password: 'pass'}});
 ```
