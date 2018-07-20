@@ -30,3 +30,16 @@ e.g.
 ladders.getValue('IN0');
 ladders.setValue('OUT0', 3.14);
 ```
+ 
+ 
+ * When linking with SOEM plugin  
+ SOEMプラグインとリンクするとき  
+ 
+e.g.  
+```
+soem.load('/path/to/file');
+soem.init(4096);
+soem.start('eth0', 1000);
+ladders.registerSoemIn('IN0', 2, 0, 0x01);
+ladders.registerSoemOut('OUT0', 3, 0, 0x01);
+```
