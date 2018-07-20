@@ -35,3 +35,23 @@ soem.load('/path/to/file');
 soem.init(4096);
 soem.start('eth0', 1000);
 ```
+ 
+ 
+ * Find the Ethernet adapter  
+ イーサネットアダプタを見つける  
+ 
+e.g.  
+```
+soem.load('/path/to/file');
+soem.find_adapters();
+```
+ 
+ 
+ * Acquire slave information  
+ スレーブ情報を取得する  
+ 
+e.g.
+```
+soem.load('/path/to/file');
+soem.slaveinfo('eth0', false, false);
+```
