@@ -228,6 +228,29 @@ public class StageBase implements GcodeFXWebViewerPlugin {
      *
      * @return
      */
+    public Boolean getCheckSerialObserveDC2DC4() {
+        return baseSettings_.isSerialObserveDC2DC4Check();
+    }
+
+    /**
+     *
+     * @param state
+     * @return
+     */
+    public Boolean setCheckSerialObserveDC2DC4(boolean state) {
+        if (baseSettings_.isSerial()) {
+            webViewer_.write(FUNCTION_NAME, "Disabled state", true);
+        } else {
+            baseSettings_.setSerialObserveDC2DC4Check(state);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return
+     */
     public String getSerialBaudrate() {
         return baseSettings_.getSerialBaudrateValue();
     }
