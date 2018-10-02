@@ -1,7 +1,7 @@
-# GcodeFXWebPlugins Serial
+# GcodeFXWebPlugins Serial2
 ## Overview 概要
- * Serial control.  
- シリアル制御
+ * Serial2 control.  
+ シリアル2制御
 ## Functions 関数
  * void licenses();
  * SerialPort getSerialPort();
@@ -30,9 +30,9 @@
 e.g.  
 ```
 var data = '';
-serial.open('COM1', 115200, 8, 1, 'EVEN');
-while(serial.available() > 0) {
-  var c = serial.read();
+serial2.open('COM1', 115200, 8, 1, 'EVEN');
+while(serial2.available() > 0) {
+  var c = serial2.read();
   data += String.fromCharCode(c);
 }
 ```

@@ -314,42 +314,42 @@ public class Serial2 implements WebViewerPlugin, SerialPortEventListener {
      * @throws gnu.io.PortInUseException
      * @throws gnu.io.UnsupportedCommOperationException
      */
-    public Boolean open(String name, String baud, String databits, String stopbits, String parity) throws TooManyListenersException, IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException {
+    public Boolean open(String name, int baud, int databits, double stopbits, String parity) throws TooManyListenersException, IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException {
         if (!owner_) {
-            if ((name != null) && (baud != null) && (databits != null) && (stopbits != null) && (parity != null)) {
-                if ((!name.isEmpty()) && (!baud.isEmpty()) && (!databits.isEmpty()) && (!stopbits.isEmpty()) && (!parity.isEmpty())) {
+            if ((name != null) && (parity != null)) {
+                if ((!name.isEmpty()) && (!parity.isEmpty())) {
                     CommPortIdentifier id = CommPortIdentifier.getPortIdentifier(name);
                     CommPort com = id.open("WebSerial", -1);
                     port_ = (SerialPort) com;
 
                     int[] param = new int[4];
 
-                    param[0] = Integer.parseInt(baud.trim());
-                    switch (databits.trim()) {
-                        case "5":
+                    param[0] = baud;
+                    switch (databits) {
+                        case 5:
                             param[1] = SerialPort.DATABITS_5;
                             break;
-                        case "6":
+                        case 6:
                             param[1] = SerialPort.DATABITS_6;
                             break;
-                        case "7":
+                        case 7:
                             param[1] = SerialPort.DATABITS_7;
                             break;
-                        case "8":
+                        case 8:
                             param[1] = SerialPort.DATABITS_8;
                             break;
                         default:
                             param[1] = 0;
                             break;
                     }
-                    switch (stopbits.trim()) {
-                        case "1":
+                    switch ((int) (stopbits * 10)) {
+                        case 10:
                             param[2] = SerialPort.STOPBITS_1;
                             break;
-                        case "2":
+                        case 20:
                             param[2] = SerialPort.STOPBITS_2;
                             break;
-                        case "1.5":
+                        case 15:
                             param[2] = SerialPort.STOPBITS_1_5;
                             break;
                         default:

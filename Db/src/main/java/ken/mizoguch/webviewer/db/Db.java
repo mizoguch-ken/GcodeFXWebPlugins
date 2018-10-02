@@ -32,7 +32,8 @@ public class Db implements WebViewerPlugin {
     private WebViewerPlugin webViewer_;
     private static final String FUNCTION_NAME = "db";
 
-    private String dbHost_, dbPort_, dbName_, dbUserName_, dbUserPassword_;
+    private String dbHost_, dbName_, dbUserName_, dbUserPassword_;
+    private int dbPort_;
     private final Gson gson_ = new Gson();
 
     /**
@@ -42,7 +43,7 @@ public class Db implements WebViewerPlugin {
     public Db() throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         dbHost_ = null;
-        dbPort_ = null;
+        dbPort_ = -1;
         dbName_ = null;
         dbUserName_ = null;
         dbUserPassword_ = null;
@@ -63,7 +64,7 @@ public class Db implements WebViewerPlugin {
      * @param user
      * @param pass
      */
-    public void set(String host, String port, String name, String user, String pass) {
+    public void set(String host, int port, String name, String user, String pass) {
         dbHost_ = host;
         dbPort_ = port;
         dbName_ = name;
@@ -78,7 +79,7 @@ public class Db implements WebViewerPlugin {
      * @throws java.sql.SQLException
      */
     public String query(String sql) throws SQLException {
-        if ((dbHost_ != null) && (dbPort_ != null) && (dbName_ != null) && (dbUserName_ != null) && (dbUserPassword_ != null)) {
+        if ((dbHost_ != null) && (dbPort_ != -1) && (dbName_ != null) && (dbUserName_ != null) && (dbUserPassword_ != null)) {
             try (Connection con = DriverManager.getConnection("jdbc:postgresql://" + dbHost_ + ":" + dbPort_ + "/" + dbName_, dbUserName_, dbUserPassword_);
                     Statement stmt = con.createStatement();
                     ResultSet rs = stmt.executeQuery(sql)) {
@@ -111,7 +112,7 @@ public class Db implements WebViewerPlugin {
      * @throws java.sql.SQLException
      */
     public Integer update(String sql) throws SQLException {
-        if ((dbHost_ != null) && (dbPort_ != null) && (dbName_ != null) && (dbUserName_ != null) && (dbUserPassword_ != null)) {
+        if ((dbHost_ != null) && (dbPort_ != -1) && (dbName_ != null) && (dbUserName_ != null) && (dbUserPassword_ != null)) {
             try (Connection con = DriverManager.getConnection("jdbc:postgresql://" + dbHost_ + ":" + dbPort_ + "/" + dbName_, dbUserName_, dbUserPassword_);
                     Statement stmt = con.createStatement()) {
                 int ret = stmt.executeUpdate(sql);
