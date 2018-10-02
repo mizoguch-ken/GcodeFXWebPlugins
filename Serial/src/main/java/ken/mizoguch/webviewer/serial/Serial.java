@@ -342,7 +342,7 @@ public class Serial implements WebViewerPlugin, SerialPortEventListener {
                             param[1] = 0;
                             break;
                     }
-                    switch ((int) (stopbits + 10)) {
+                    switch ((int) (stopbits * 10)) {
                         case 10:
                             param[2] = SerialPort.STOPBITS_1;
                             break;
