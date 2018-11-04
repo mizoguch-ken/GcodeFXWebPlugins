@@ -24,7 +24,7 @@
  * Long outs(int slave, long bitsOffset, long bitsMask);
  * Long out(int slave, long bitsOffset, long bitsMask, long value);
  * String find_adapters();
- * String slaveinfo(String ifname, boolean printSDO, boolean printMAP);
+ * String slaveinfo(boolean printSDO, boolean printMAP);
 ## Usage 使い方
  * Run with Javascript  
  Javascriptで実行する  
