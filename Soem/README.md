@@ -53,5 +53,7 @@ soem.find_adapters();
 e.g.
 ```
 soem.load('/path/to/file');
-soem.slaveinfo('eth0', false, false);
+soem.init(4096);
+soem.start('eth0', 1000);
+soem.slaveinfo(false, false);
 ```
