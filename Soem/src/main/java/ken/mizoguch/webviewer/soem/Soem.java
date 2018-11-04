@@ -322,7 +322,7 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
         }
 
         if (bytes != null) {
-            return soem_.sdoWrite(slave, index, subIndex, byteSize, bytes);
+            return soem_.sdoWrite(slave, index, subIndex, bytes);
         }
 
         return null;
@@ -372,13 +372,12 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
 
     /**
      *
-     * @param ifname
      * @param printSDO
      * @param printMAP
      * @return
      */
-    public String slaveinfo(String ifname, boolean printSDO, boolean printMAP) {
-        return soem_.slaveinfo(ifname, printSDO, printMAP);
+    public String slaveinfo(boolean printSDO, boolean printMAP) {
+        return soem_.slaveinfo(printSDO, printMAP);
     }
 
     @Override
