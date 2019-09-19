@@ -6,17 +6,25 @@
 package ken.mizoguch.webviewer.db;
 
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.ServiceLoader;
 import javafx.concurrent.Worker;
 import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
@@ -32,8 +40,7 @@ public class Db implements WebViewerPlugin {
     private WebViewerPlugin webViewer_;
     private static final String FUNCTION_NAME = "db";
 
-    private String dbHost_, dbName_, dbUserName_, dbUserPassword_;
-    private int dbPort_;
+    private Connection conn_;
     private final Gson gson_ = new Gson();
 
     /**
@@ -41,12 +48,7 @@ public class Db implements WebViewerPlugin {
      * @throws java.lang.ClassNotFoundException
      */
     public Db() throws ClassNotFoundException {
-        Class.forName("org.postgresql.Driver");
-        dbHost_ = null;
-        dbPort_ = -1;
-        dbName_ = null;
-        dbUserName_ = null;
-        dbUserPassword_ = null;
+        conn_ = null;
     }
 
     /**
@@ -58,18 +60,38 @@ public class Db implements WebViewerPlugin {
 
     /**
      *
-     * @param host
-     * @param port
-     * @param name
+     * @param libraryPath
+     * @param url
      * @param user
      * @param pass
+     * @return
      */
-    public void set(String host, int port, String name, String user, String pass) {
-        dbHost_ = host;
-        dbPort_ = port;
-        dbName_ = name;
-        dbUserName_ = user;
-        dbUserPassword_ = pass;
+    public Boolean connect(String libraryPath, String url, String user, String pass) {
+        if ((libraryPath != null) && (url != null) && (user != null) && (pass != null)) {
+            try {
+                Path path = Paths.get(libraryPath);
+                if (Files.exists(path)) {
+                    if (Files.isRegularFile(path)) {
+                        URLClassLoader loader = URLClassLoader.newInstance(new URL[]{path.toUri().toURL()}, getClass().getClassLoader());
+                        ServiceLoader srvcLoader = ServiceLoader.load(Class.forName("java.sql.Driver"), loader);
+                        for (Iterator it = srvcLoader.iterator(); it.hasNext();) {
+                            Driver driver = (Driver) it.next();
+                            Properties prop = new Properties();
+                            prop.setProperty("user", user);
+                            prop.setProperty("password", pass);
+                            conn_ = driver.connect(url, prop);
+                            if (conn_ != null) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            } catch (IOException | ClassNotFoundException | SecurityException | IllegalArgumentException | SQLException ex) {
+                webViewer_.write(FUNCTION_NAME, "Incorrect database argument", true);
+            }
+        }
+        return null;
     }
 
     /**
@@ -79,28 +101,31 @@ public class Db implements WebViewerPlugin {
      * @throws java.sql.SQLException
      */
     public String query(String sql) throws SQLException {
-        if ((dbHost_ != null) && (dbPort_ != -1) && (dbName_ != null) && (dbUserName_ != null) && (dbUserPassword_ != null)) {
-            try (Connection con = DriverManager.getConnection("jdbc:postgresql://" + dbHost_ + ":" + dbPort_ + "/" + dbName_, dbUserName_, dbUserPassword_);
-                    Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery(sql)) {
-                List<Map<String, String>> table = new ArrayList<>();
-                List<String> columnNames = new ArrayList<>();
-                ResultSetMetaData rsmd = rs.getMetaData();
-                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    columnNames.add(rsmd.getColumnName(i));
-                }
-
-                while (rs.next()) {
-                    Map<String, String> recode = new HashMap<>();
-                    for (String name : columnNames) {
-                        recode.put(name, rs.getString(name));
+        if (conn_ != null) {
+            if (sql != null) {
+                try (Statement stmt = conn_.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql)) {
+                    List<Map<String, String>> table = new ArrayList<>();
+                    List<String> columnNames = new ArrayList<>();
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                        columnNames.add(rsmd.getColumnName(i));
                     }
-                    table.add(recode);
+
+                    while (rs.next()) {
+                        Map<String, String> recode = new HashMap<>();
+                        for (String name : columnNames) {
+                            recode.put(name, rs.getString(name));
+                        }
+                        table.add(recode);
+                    }
+                    return gson_.toJson(table);
                 }
-                return gson_.toJson(table);
+            } else {
+                webViewer_.write(FUNCTION_NAME, "Incorrect database argument", true);
             }
         } else {
-            webViewer_.write(FUNCTION_NAME, "Incorrect database argument", true);
+            webViewer_.write(FUNCTION_NAME, "Not connected", true);
         }
         return null;
     }
@@ -112,15 +137,18 @@ public class Db implements WebViewerPlugin {
      * @throws java.sql.SQLException
      */
     public Integer update(String sql) throws SQLException {
-        if ((dbHost_ != null) && (dbPort_ != -1) && (dbName_ != null) && (dbUserName_ != null) && (dbUserPassword_ != null)) {
-            try (Connection con = DriverManager.getConnection("jdbc:postgresql://" + dbHost_ + ":" + dbPort_ + "/" + dbName_, dbUserName_, dbUserPassword_);
-                    Statement stmt = con.createStatement()) {
-                int ret = stmt.executeUpdate(sql);
-                stmt.close();
-                return ret;
+        if (conn_ != null) {
+            if (sql != null) {
+                try (Statement stmt = conn_.createStatement()) {
+                    int ret = stmt.executeUpdate(sql);
+                    stmt.close();
+                    return ret;
+                }
+            } else {
+                webViewer_.write(FUNCTION_NAME, "Incorrect database argument", true);
             }
         } else {
-            webViewer_.write(FUNCTION_NAME, "Incorrect database argument", true);
+            webViewer_.write(FUNCTION_NAME, "Not connected", true);
         }
         return null;
     }
@@ -141,6 +169,13 @@ public class Db implements WebViewerPlugin {
 
     @Override
     public void close() {
+        if (conn_ != null) {
+            try {
+                conn_.close();
+            } catch (SQLException ex) {
+            }
+            conn_ = null;
+        }
     }
 
     @Override
