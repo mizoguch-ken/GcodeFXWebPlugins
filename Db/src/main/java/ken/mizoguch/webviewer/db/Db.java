@@ -6,7 +6,7 @@
 package ken.mizoguch.webviewer.db;
 
 import com.google.gson.Gson;
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -65,31 +65,32 @@ public class Db implements WebViewerPlugin {
      * @param user
      * @param pass
      * @return
+     * @throws java.net.MalformedURLException
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public Boolean connect(String libraryPath, String url, String user, String pass) {
+    public Boolean connect(String libraryPath, String url, String user, String pass) throws MalformedURLException, ClassNotFoundException, SQLException {
         if ((libraryPath != null) && (url != null) && (user != null) && (pass != null)) {
-            try {
-                Path path = Paths.get(libraryPath);
-                if (Files.exists(path)) {
-                    if (Files.isRegularFile(path)) {
-                        URLClassLoader loader = URLClassLoader.newInstance(new URL[]{path.toUri().toURL()}, getClass().getClassLoader());
-                        ServiceLoader srvcLoader = ServiceLoader.load(Class.forName("java.sql.Driver"), loader);
-                        for (Iterator it = srvcLoader.iterator(); it.hasNext();) {
-                            Driver driver = (Driver) it.next();
-                            Properties prop = new Properties();
-                            prop.setProperty("user", user);
-                            prop.setProperty("password", pass);
-                            conn_ = driver.connect(url, prop);
-                            if (conn_ != null) {
-                                return true;
-                            }
+            Path path = Paths.get(libraryPath);
+            if (Files.exists(path)) {
+                if (Files.isRegularFile(path)) {
+                    URLClassLoader loader = URLClassLoader.newInstance(new URL[]{path.toUri().toURL()}, getClass().getClassLoader());
+                    ServiceLoader srvcLoader = ServiceLoader.load(Driver.class, loader);
+                    for (Iterator it = srvcLoader.iterator(); it.hasNext();) {
+                        Driver driver = (Driver) it.next();
+                        Properties prop = new Properties();
+                        prop.setProperty("user", user);
+                        prop.setProperty("password", pass);
+                        conn_ = driver.connect(url, prop);
+                        if (conn_ != null) {
+                            return true;
                         }
-                        return false;
                     }
+                    return false;
                 }
-            } catch (IOException | ClassNotFoundException | SecurityException | IllegalArgumentException | SQLException ex) {
-                webViewer_.write(FUNCTION_NAME, "Incorrect database argument", true);
             }
+        } else {
+            webViewer_.write(FUNCTION_NAME, "Incorrect database argument", true);
         }
         return null;
     }
