@@ -1192,9 +1192,9 @@ public final class LinkBoxClient {
             byte gwy[] = InetAddress.getByName(gateway).getAddress();
 
             request.append("SetIPAddr");
-            request.append("<").append(String.format("%03d%03d%03d%03d", (int) (adr[0] & 0xff), (int) (adr[1] & 0xff), (int) (adr[2] & 0xff), (int) (adr[3] & 0xff))).append(">");
-            request.append("<").append(String.format("%03d%03d%03d%03d", (int) (msk[0] & 0xff), (int) (msk[1] & 0xff), (int) (msk[2] & 0xff), (int) (msk[3] & 0xff))).append(">");
-            request.append("<").append(String.format("%03d%03d%03d%03d", (int) (gwy[0] & 0xff), (int) (gwy[1] & 0xff), (int) (gwy[2] & 0xff), (int) (gwy[3] & 0xff))).append(">");
+            request.append("<").append(String.format("%03d%03d%03d%03d", Byte.toUnsignedInt(adr[0]), Byte.toUnsignedInt(adr[1]), Byte.toUnsignedInt(adr[2]), Byte.toUnsignedInt(adr[3]))).append(">");
+            request.append("<").append(String.format("%03d%03d%03d%03d", Byte.toUnsignedInt(msk[0]), Byte.toUnsignedInt(msk[1]), Byte.toUnsignedInt(msk[2]), Byte.toUnsignedInt(msk[3]))).append(">");
+            request.append("<").append(String.format("%03d%03d%03d%03d", Byte.toUnsignedInt(gwy[0]), Byte.toUnsignedInt(gwy[1]), Byte.toUnsignedInt(gwy[2]), Byte.toUnsignedInt(gwy[3]))).append(">");
 
             return checkErrorCode(sendRequest("SetIPAddr", request.toString(), clientTimeout_, 0, socket_, bufferedReader_, printWriter_));
         } catch (UnknownHostException ex) {
@@ -1217,7 +1217,7 @@ public final class LinkBoxClient {
             for (int i = 0; i < address.size(); i++) {
                 byte adr[] = InetAddress.getByName(address.get(i)).getAddress();
 
-                request.append("<").append(String.format("%03d%03d%03d%03d", (int) (adr[0] & 0xff), (int) (adr[1] & 0xff), (int) (adr[2] & 0xff), (int) (adr[3] & 0xff))).append(">");
+                request.append("<").append(String.format("%03d%03d%03d%03d", Byte.toUnsignedInt(adr[0]), Byte.toUnsignedInt(adr[1]), Byte.toUnsignedInt(adr[2]), Byte.toUnsignedInt(adr[3]))).append(">");
             }
             return checkErrorCode(sendRequest("SetHostAddr", request.toString(), clientTimeout_, 0, socket_, bufferedReader_, printWriter_));
         } catch (UnknownHostException ex) {
