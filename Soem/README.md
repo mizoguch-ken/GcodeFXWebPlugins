@@ -7,6 +7,7 @@
  * Boolean init(int size);
  * Boolean po2so(int slave, long eep_man, long eep_id, String func);
  * Boolean start(String ifname, long cycletime);
+ * Boolean start_redundant(String ifname, String ifname2, long cycletime);
  * void setNotifyErrorSafeOpError(String func);
  * void setNotifyErrorLost(String func);
  * void setNotifyWarningSafeOp(String func);
@@ -28,28 +29,28 @@
 ## Usage 使い方
  * Run with Javascript  
  Javascriptで実行する  
- 
+
 e.g.  
 ```
 soem.load('/path/to/file');
 soem.init(4096);
 soem.start('eth0', 1000);
 ```
- 
- 
+
+
  * Find the Ethernet adapter  
  イーサネットアダプタを見つける  
- 
+
 e.g.  
 ```
 soem.load('/path/to/file');
 soem.find_adapters();
 ```
- 
- 
+
+
  * Acquire slave information  
  スレーブ情報を取得する  
- 
+
 e.g.
 ```
 soem.load('/path/to/file');

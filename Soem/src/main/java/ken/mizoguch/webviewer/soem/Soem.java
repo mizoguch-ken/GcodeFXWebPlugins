@@ -131,7 +131,18 @@ public class Soem implements GcodeFXWebViewerPlugin, SoemPluginListener {
      * @return
      */
     public Boolean start(String ifname, long cycletime) {
-        return soem_.start(ifname, cycletime, this);
+        return soem_.start(ifname, null, cycletime, this);
+    }
+
+    /**
+     *
+     * @param ifname
+     * @param ifname2
+     * @param cycletime
+     * @return
+     */
+    public Boolean start_redundant(String ifname, String ifname2, long cycletime) {
+        return soem_.start(ifname, ifname2, cycletime, this);
     }
 
     /**
