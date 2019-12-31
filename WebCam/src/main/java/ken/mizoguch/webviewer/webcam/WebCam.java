@@ -27,11 +27,11 @@ import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import ken.mizoguch.webviewer.plugin.WebViewerPlugin;
 import netscape.javascript.JSException;
-import static org.bytedeco.javacpp.opencv_videoio.CV_CAP_PROP_FPS;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameGrabber;
+import static org.opencv.videoio.Videoio.CAP_PROP_FPS;
 
 /**
  *
@@ -407,7 +407,7 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
                     if (frameRate > 0.0) {
                         frameDelay = (1000 / (long) frameRate);
                     } else {
-                        frameDelay = 1000 / CV_CAP_PROP_FPS;
+                        frameDelay = 1000 / CAP_PROP_FPS;
                     }
                 }
 
