@@ -1,0 +1,37 @@
+# GcodeFXWebPlugins Jasper
+## Overview 概要
+ * Use JasperReports Library to perform printing, PDF output, etc.  
+ JasperReports Libraryを使用して、印刷、PDF出力などを実行します。
+## Functions 関数
+ * void jrxml(String path);
+ * void clearParameters();
+ * void setParameters(String jsonElement);
+ * void clearJsonData();
+ * void setJsonData(String jsonElement);
+ * void setCsvData(String csvElement);
+ * String getPrintServices();
+ * void print(String printerName);
+ * void pdf(String path);
+ * void html(String path);
+ * void xml(String path);
+## Usage 使い方
+ * Run with Javascript  
+ Javascriptで実行する  
+
+e.g.  
+```
+jasper.jrxml('path/to/file.jrxml');
+jasper.setParameters(JSON.stringify([{PARAM_NAME: PARAM_DATA}]));
+
+jasper.setJsonData(JSON.stringify([{FIELD_NAME: FIELD_DATA}]));
+jasper.print('Microsoft Print to PDF');
+
+jasper.setJsonData(JSON.stringify([{FIELD_NAME: FIELD_DATA}]));
+jasper.pdf('path/to/file.pdf');
+
+jasper.setJsonData(JSON.stringify([{FIELD_NAME: FIELD_DATA}]));
+jasper.html('path/to/file.html');
+
+jasper.setJsonData(JSON.stringify([{FIELD_NAME: FIELD_DATA}]));
+jasper.xml('path/to/file.xml');
+```
