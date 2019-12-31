@@ -4,7 +4,7 @@
 
     <groupId>ken.mizoguch</groupId>
     <artifactId>Gits</artifactId>
-    <version>2018.09.12</version>
+    <version>2020.09.12</version>
     <packaging>jar</packaging>
 
     <name>Gits</name>
@@ -83,12 +83,12 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <version>2.8.6</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
-            <version>5.1.1.201809181055-r</version>
+            <version>5.6.0.201912101111-r</version>
         </dependency>
     </dependencies>
 </project>

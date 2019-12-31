@@ -4,7 +4,7 @@
 
     <groupId>ken.mizoguch</groupId>
     <artifactId>WebCam</artifactId>
-    <version>2018.09.12</version>
+    <version>2020.09.12</version>
     <packaging>jar</packaging>
 
     <name>WebCam</name>
@@ -83,12 +83,12 @@
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacv</artifactId>
-            <version>1.4.2</version>
+            <version>1.5.2</version>
         </dependency>
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacv-platform</artifactId>
-            <version>1.4.2</version>
+            <version>1.5.2</version>
         </dependency>
     </dependencies>
 </project>
