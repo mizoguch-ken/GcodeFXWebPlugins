@@ -3,6 +3,7 @@
  * Use JasperReports Library to perform printing, PDF output, etc.  
  JasperReports Libraryを使用して、印刷、PDF出力などを実行します。
 ## Functions 関数
+ * void jasper(String path);
  * void jrxml(String path);
  * void clearParameters();
  * void setParameters(String jsonElement);
@@ -28,6 +29,8 @@ jasper.print('Microsoft Print to PDF');
 
 jasper.setJsonData(JSON.stringify([{FIELD_NAME: FIELD_DATA}]));
 jasper.pdf('path/to/file.pdf');
+
+jasper.jasper('path/to/file.jasper');
 
 jasper.setJsonData(JSON.stringify([{FIELD_NAME: FIELD_DATA}]));
 jasper.html('path/to/file.html');

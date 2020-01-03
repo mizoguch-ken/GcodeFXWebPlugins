@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
@@ -69,6 +70,15 @@ public class Jasper implements WebViewerPlugin {
      */
     public void licenses() {
         new Licenses().show();
+    }
+
+    /**
+     *
+     * @param path
+     * @throws JRException
+     */
+    public void jasper(String path) throws JRException {
+        report_ = (JasperReport) JRLoader.loadObject(Paths.get(path).toFile());
     }
 
     /**
