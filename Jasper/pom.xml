@@ -68,7 +68,7 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Built-By>${project.organization.name}</Built-By>
-                                        <Class-Path>lib/orai18n.jar</Class-Path>
+                                        <Class-Path>lib/jasperfonts.jar</Class-Path>
                                         <Main-Class>${mainClass}</Main-Class>
                                     </manifestEntries>
                                 </transformer>

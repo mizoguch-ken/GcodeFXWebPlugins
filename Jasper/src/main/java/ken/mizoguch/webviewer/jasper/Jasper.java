@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import java.io.ByteArrayInputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -131,7 +132,7 @@ public class Jasper implements WebViewerPlugin {
      * @throws net.sf.jasperreports.engine.JRException
      */
     public void setJsonData(String jsonElement) throws JRException {
-        dataSource_ = new JsonDataSource(new ByteArrayInputStream(jsonElement.getBytes()));
+        dataSource_ = new JsonDataSource(new ByteArrayInputStream(jsonElement.getBytes(Charset.forName("UTF-8"))));
     }
 
     /**
@@ -140,7 +141,7 @@ public class Jasper implements WebViewerPlugin {
      * @throws JRException
      */
     public void setCsvData(String csvElement) throws JRException {
-        dataSource_ = new JRCsvDataSource(new ByteArrayInputStream(csvElement.getBytes()));
+        dataSource_ = new JRCsvDataSource(new ByteArrayInputStream(csvElement.getBytes(Charset.forName("UTF-8"))));
     }
 
     /**
