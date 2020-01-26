@@ -32,7 +32,6 @@ public final class LinkBoxClient {
     private BufferedReader bufferedReader_;
     private PrintWriter printWriter_;
 
-    private int clientAcc_;
     private int clientPort_;
     private int clientTimeout_;
 
@@ -121,14 +120,6 @@ public final class LinkBoxClient {
             exceptionCaught(ex);
         }
         return false;
-    }
-
-    /**
-     *
-     * @param acc
-     */
-    public void setAccNumber(int acc) {
-        clientAcc_ = acc;
     }
 
     /**
@@ -377,6 +368,7 @@ public final class LinkBoxClient {
      * 表示モード(Set2AK1,2)を付けてアンサーキットに作業指示をします(ACCNo.の指定 有効)。
      * SetLightAK1と同様の機能でパラメータをASCIIで指定可能。最大128台のアンサーキットを指定可能です。
      *
+     * @param accNumber
      * @param normalDirection
      * @param normalLedR
      * @param normalLedG
@@ -394,6 +386,7 @@ public final class LinkBoxClient {
      * @return
      */
     public boolean cmdSetL1(
+            int accNumber,
             LinkBoxEnums normalDirection,
             LinkBoxEnums normalLedR, LinkBoxEnums normalLedG, LinkBoxEnums normalLedB,
             LinkBoxEnums normalSeg, LinkBoxEnums normalBuz,
@@ -404,7 +397,7 @@ public final class LinkBoxClient {
         StringBuilder request = new StringBuilder();
 
         request.append("SetL1");
-        request.append(String.format("%02d", clientAcc_));
+        request.append(String.format("%02d", accNumber));
         request.append(normalDirection.getString());
         request.append(normalLedR.getString());
         request.append(normalLedG.getString());
@@ -424,6 +417,7 @@ public final class LinkBoxClient {
 
     /**
      *
+     * @param accNumber
      * @param normalDirection
      * @param normalLedR
      * @param normalLedG
@@ -441,6 +435,7 @@ public final class LinkBoxClient {
      * @return
      */
     public boolean cmdSetL1(
+            int accNumber,
             LinkBoxEnums normalDirection,
             LinkBoxEnums normalLedR, LinkBoxEnums normalLedG, LinkBoxEnums normalLedB,
             LinkBoxEnums normalSeg, LinkBoxEnums normalBuz,
@@ -451,7 +446,7 @@ public final class LinkBoxClient {
         StringBuilder request = new StringBuilder();
 
         request.append("SetL1");
-        request.append(String.format("%02d", clientAcc_));
+        request.append(String.format("%02d", accNumber));
         request.append(normalDirection.getString());
         request.append(normalLedR.getString());
         request.append(normalLedG.getString());
@@ -473,6 +468,7 @@ public final class LinkBoxClient {
 
     /**
      *
+     * @param accNumber
      * @param normalDirection
      * @param normalLed
      * @param normalSeg
@@ -486,6 +482,7 @@ public final class LinkBoxClient {
      * @return
      */
     public boolean cmdSetL1(
+            int accNumber,
             LinkBoxEnums normalDirection, LinkBoxEnums normalLed, LinkBoxEnums normalSeg, LinkBoxEnums normalBuz,
             LinkBoxEnums answerDirection, LinkBoxEnums answerLed, LinkBoxEnums answerSeg, LinkBoxEnums answerBuz,
             int unit, String view) {
@@ -741,6 +738,7 @@ public final class LinkBoxClient {
         }
 
         return cmdSetL1(
+                accNumber,
                 normalDirection,
                 normalLedR, normalLedG, normalLedB,
                 normalSeg, normalBuz,
@@ -752,6 +750,7 @@ public final class LinkBoxClient {
 
     /**
      *
+     * @param accNumber
      * @param normalDirection
      * @param normalLed
      * @param normalSeg
@@ -765,6 +764,7 @@ public final class LinkBoxClient {
      * @return
      */
     public boolean cmdSetL1(
+            int accNumber,
             LinkBoxEnums normalDirection, LinkBoxEnums normalLed, LinkBoxEnums normalSeg, LinkBoxEnums normalBuz,
             LinkBoxEnums answerDirection, LinkBoxEnums answerLed, LinkBoxEnums answerSeg, LinkBoxEnums answerBuz,
             List<Integer> units, List<String> views) {
@@ -1020,6 +1020,7 @@ public final class LinkBoxClient {
         }
 
         return cmdSetL1(
+                accNumber,
                 normalDirection,
                 normalLedR, normalLedG, normalLedB,
                 normalSeg, normalBuz,

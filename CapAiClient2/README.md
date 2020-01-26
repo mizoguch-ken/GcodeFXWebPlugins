@@ -10,7 +10,7 @@
  * void setNotifyClientResponse(String func);
  * void setNotifyClientError(String func);
  * Boolean isLinkBoxClientRunning();
- * Boolean setLinkBoxClientConfig(String address, int accNumber, int timeout);
+ * Boolean setLinkBoxClientConfig(String address, int timeout);
  * Boolean openLinkBoxClient();
  * Boolean closeLinkBoxClient();
  * String getLocalAddress();
@@ -22,7 +22,7 @@
  * Boolean addrAK(int unit);
  * Boolean setAutoATT();
  * Boolean clearAutoATT();
- * Boolean setL1(String normalDirection, String normalLed, String normalSeg, String normalBuz, String answerDirection, String answerLed, String answerSeg, String answerBuz, String jsonElement);
+ * Boolean setL1(int accNumber, String normalDirection, String normalLed, String normalSeg, String normalBuz, String answerDirection, String answerLed, String answerSeg, String answerBuz, String jsonElement);
  * Boolean getAK();
  * Boolean startDev(String jsonElement);
  * Boolean demoAK(int unit, String view);
@@ -43,8 +43,8 @@
 e.g.  
 ```
 if(!capaiclient.isLinkBoxClientRunning()) {
-  capaiclient.setLinkBoxClientConfig('192.168.10.51', '01', 30000);
+  capaiclient.setLinkBoxClientConfig('192.168.10.51', 30000);
   capaiclient.openLinkBoxClient();
 }
-capaiclient.setL1('DOWN', 'GREEN', 'LIGHT', 'OFF', 'NONE', 'OFF', 'OFF', 'OFF', JSON.stringify([{unit: 2001, view: '3'}]));
+capaiclient.setL1(1, 'DOWN', 'GREEN', 'LIGHT', 'OFF', 'NONE', 'OFF', 'OFF', 'OFF', JSON.stringify([{unit: 2001, view: '3'}]));
 ```

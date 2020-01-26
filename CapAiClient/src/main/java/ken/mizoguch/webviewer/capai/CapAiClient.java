@@ -147,11 +147,10 @@ public class CapAiClient implements WebViewerPlugin, LinkBoxClientListener {
     /**
      *
      * @param address
-     * @param accNumber
      * @param timeout
      * @return
      */
-    public Boolean setLinkBoxClientConfig(String address, int accNumber, int timeout) {
+    public Boolean setLinkBoxClientConfig(String address, int timeout) {
         if (!linkBoxClient_.isRunning()) {
             try {
                 InetAddress linkBoxAddress;
@@ -162,7 +161,6 @@ public class CapAiClient implements WebViewerPlugin, LinkBoxClientListener {
                     linkBoxAddress = InetAddress.getByName(address);
                 }
                 linkBoxClient_.setServerAddress(linkBoxAddress);
-                linkBoxClient_.setAccNumber(accNumber);
                 linkBoxClient_.setTimeout(timeout);
                 return true;
             } catch (UnknownHostException ex) {
@@ -312,6 +310,7 @@ public class CapAiClient implements WebViewerPlugin, LinkBoxClientListener {
 
     /**
      *
+     * @param accNum
      * @param normalDirection
      * @param normalLed
      * @param normalSeg
@@ -323,7 +322,8 @@ public class CapAiClient implements WebViewerPlugin, LinkBoxClientListener {
      * @param jsonElement
      * @return
      */
-    public Boolean setL1(String normalDirection, String normalLed, String normalSeg, String normalBuz,
+    public Boolean setL1(int accNum,
+            String normalDirection, String normalLed, String normalSeg, String normalBuz,
             String answerDirection, String answerLed, String answerSeg, String answerBuz,
             String jsonElement) {
         if (linkBoxClient_.isRunning()) {
@@ -584,7 +584,7 @@ public class CapAiClient implements WebViewerPlugin, LinkBoxClientListener {
                 views.add(buff.getAsJsonObject().get("view").getAsString());
             }
 
-            return linkBoxClient_.cmdSetL1(nmlDir, nmlLed, nmlSeg, nmlBuz, ansDir, ansLed, ansSeg, ansBuz, units, views);
+            return linkBoxClient_.cmdSetL1(accNum, nmlDir, nmlLed, nmlSeg, nmlBuz, ansDir, ansLed, ansSeg, ansBuz, units, views);
         }
         return null;
     }
