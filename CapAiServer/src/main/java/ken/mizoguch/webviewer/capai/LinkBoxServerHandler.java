@@ -5,8 +5,8 @@
 package ken.mizoguch.webviewer.capai;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 import java.io.UnsupportedEncodingException;
 
@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
  *
  * @author mizoguch-ken
  */
-public final class LinkBoxServerHandler extends ChannelInboundHandlerAdapter {
+public final class LinkBoxServerHandler extends ChannelHandlerAdapter {
 
     private final LinkBoxServer linkBoxServer_;
 
