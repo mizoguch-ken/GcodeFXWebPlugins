@@ -7,8 +7,8 @@ package ken.mizoguch.webviewer.devtools;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
@@ -26,7 +26,7 @@ import javafx.application.Platform;
  *
  * @author mizoguch-ken
  */
-public class DevToolsServerHander extends ChannelInboundHandlerAdapter {
+public class DevToolsServerHander extends ChannelHandlerAdapter {
 
     private final DevToolsDebugger devToolsDebugger_;
     private ChannelHandlerContext channelHandlerContext_;
