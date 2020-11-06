@@ -13,6 +13,8 @@ import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.TensorInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +36,7 @@ public class Onnx implements WebViewerPlugin {
     private OrtEnvironment env_;
     private OrtSession.SessionOptions opts_;
     private OrtSession session_;
+    private ByteBuffer bytesData_;
 
     private final Gson gson_ = new Gson();
 
@@ -47,6 +50,7 @@ public class Onnx implements WebViewerPlugin {
         env_ = null;
         opts_ = null;
         session_ = null;
+        bytesData_ = null;
     }
 
     /**
@@ -453,8 +457,50 @@ public class Onnx implements WebViewerPlugin {
             for (String inputName : session_.getInputNames()) {
                 if (session_.getInputInfo().get(inputName).getInfo() instanceof TensorInfo) {
                     TensorInfo tensorInfo = (TensorInfo) session_.getInputInfo().get(inputName).getInfo();
-                    OnnxTensor onnxTensor = OnnxTensor.createTensor(env_, gson_.fromJson(jsonObject.get(inputName).getAsJsonArray(), tensorInfo.makeCarrier().getClass()));
-                    inputs.put(inputName, onnxTensor);
+                    if (jsonObject.get(inputName).isJsonArray()) {
+                        byte[] bytes = gson_.fromJson(jsonObject.getAsJsonArray(inputName), byte[].class);
+                        long[] shape = tensorInfo.getShape();
+
+                        for (int i = 0; i < shape.length; i++) {
+                            if (shape[i] == -1) {
+                                shape[i] = 1;
+                            }
+                        }
+
+                        if (bytesData_ == null) {
+                            bytesData_ = ByteBuffer.allocateDirect(bytes.length).order(ByteOrder.nativeOrder());
+                        } else if (bytesData_.limit() <= bytes.length) {
+                            bytesData_ = ByteBuffer.allocateDirect(bytes.length).order(ByteOrder.nativeOrder());
+                        }
+                        bytesData_.put(bytes);
+                        bytesData_.clear();
+
+                        switch (tensorInfo.type) {
+                            case FLOAT:
+                                inputs.put(inputName, OnnxTensor.createTensor(env_, bytesData_.asFloatBuffer(), shape));
+                                break;
+                            case DOUBLE:
+                                inputs.put(inputName, OnnxTensor.createTensor(env_, bytesData_.asDoubleBuffer(), shape));
+                                break;
+                            case INT8:
+                                inputs.put(inputName, OnnxTensor.createTensor(env_, bytesData_, shape));
+                                break;
+                            case INT16:
+                                inputs.put(inputName, OnnxTensor.createTensor(env_, bytesData_.asShortBuffer(), shape));
+                                break;
+                            case INT32:
+                                inputs.put(inputName, OnnxTensor.createTensor(env_, bytesData_.asIntBuffer(), shape));
+                                break;
+                            case INT64:
+                                inputs.put(inputName, OnnxTensor.createTensor(env_, bytesData_.asLongBuffer(), shape));
+                                break;
+                            case BOOL:
+                            case STRING:
+                            case UNKNOWN:
+                            default:
+                                break;
+                        }
+                    }
                 }
             }
 
