@@ -90,3 +90,16 @@ webcam.setImageColor('COLOR_BGR2GRAY');
 webcam.open(0);
 webcam.play();
 ```
+
+- save image file
+
+  画像ファイルの保存
+
+  e.g.
+
+  ```
+  webcam.open(0);
+  webcam.save('./image.jpg');
+  ```
+
+  

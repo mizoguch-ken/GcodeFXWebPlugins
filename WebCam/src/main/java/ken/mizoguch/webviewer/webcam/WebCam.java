@@ -41,6 +41,7 @@ import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameGrabber;
 import org.bytedeco.opencv.global.opencv_core;
 import org.bytedeco.opencv.global.opencv_dnn;
+import org.bytedeco.opencv.global.opencv_imgcodecs;
 import org.bytedeco.opencv.global.opencv_imgproc;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.Scalar;
@@ -1015,6 +1016,37 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
     public Boolean stop() {
         isPlay_ = false;
         return this.cancel();
+    }
+
+    /**
+     *
+     * @param path
+     * @return
+     * @throws FrameGrabber.Exception
+     */
+    public Boolean save(String path) throws FrameGrabber.Exception {
+        if (webcam_ != null) {
+            Frame frame = webcam_.grab();
+
+            if (frame != null) {
+                if (frame.image != null) {
+                    OpenCVFrameConverter.ToMat openCVFrameConverter = new OpenCVFrameConverter.ToMat();
+                    Mat matImage = matImage = openCVFrameConverter.convert(frame);
+
+                    if (matImage != null) {
+                        if (webcamImageColor_ >= 0) {
+                            opencv_imgproc.cvtColor(matImage, matImage, webcamImageColor_);
+                        }
+                        opencv_imgcodecs.imwrite(path, matImage);
+                        matImage.release();
+
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return null;
     }
 
     /**
