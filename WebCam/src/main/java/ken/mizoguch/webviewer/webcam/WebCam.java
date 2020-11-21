@@ -96,6 +96,7 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
     private boolean isUpdateWebcamView_;
     private boolean isUpdateFuncResultImage_;
     private boolean isUpdateFuncResultBlob_;
+    private String saveFilePath_;
 
     private final Gson gson_ = new Gson();
 
@@ -131,6 +132,7 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
         isPlay_ = false;
         isUpdateWebcamView_ = false;
         isUpdateFuncResultImage_ = false;
+        saveFilePath_ = null;
     }
 
     /**
@@ -1026,21 +1028,28 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
      */
     public Boolean save(String path) throws FrameGrabber.Exception {
         if (webcam_ != null) {
-            Frame frame = webcam_.grab();
+            if (isPlay_) {
+                if (saveFilePath_ == null) {
+                    saveFilePath_ = path;
+                    return true;
+                }
+            } else {
+                Frame frame = webcam_.grab();
 
-            if (frame != null) {
-                if (frame.image != null) {
-                    OpenCVFrameConverter.ToMat openCVFrameConverter = new OpenCVFrameConverter.ToMat();
-                    Mat matImage = matImage = openCVFrameConverter.convert(frame);
+                if (frame != null) {
+                    if (frame.image != null) {
+                        OpenCVFrameConverter.ToMat openCVFrameConverter = new OpenCVFrameConverter.ToMat();
+                        Mat matImage = matImage = openCVFrameConverter.convert(frame);
 
-                    if (matImage != null) {
-                        if (webcamImageColor_ >= 0) {
-                            opencv_imgproc.cvtColor(matImage, matImage, webcamImageColor_);
+                        if (matImage != null) {
+                            if (webcamImageColor_ >= 0) {
+                                opencv_imgproc.cvtColor(matImage, matImage, webcamImageColor_);
+                            }
+                            opencv_imgcodecs.imwrite(path, matImage);
+                            matImage.release();
+
+                            return true;
                         }
-                        opencv_imgcodecs.imwrite(path, matImage);
-                        matImage.release();
-
-                        return true;
                     }
                 }
             }
@@ -1257,7 +1266,8 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
                 while (isPlay_ && (webcam_ != null)) {
                     if ((webcamStage_.isShowing() && !isUpdateWebcamView_)
                             || ((funcResultImage_ != null) && !isUpdateFuncResultImage_)
-                            || ((funcResultBlob_ != null) && !isUpdateFuncResultBlob_)) {
+                            || ((funcResultBlob_ != null) && !isUpdateFuncResultBlob_)
+                            || (saveFilePath_ != null)) {
                         try {
                             frame = webcam_.grab();
 
@@ -1334,6 +1344,10 @@ public class WebCam extends Service<Void> implements WebViewerPlugin {
                                             });
                                         }
 
+                                        if (saveFilePath_ != null) {
+                                            opencv_imgcodecs.imwrite(saveFilePath_, matImage);
+                                            saveFilePath_ = null;
+                                        }
                                         matImage.release();
                                     }
                                 }

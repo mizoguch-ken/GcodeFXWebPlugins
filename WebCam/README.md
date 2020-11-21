@@ -18,6 +18,7 @@
  * Boolean isPlaying();
  * Boolean play();
  * Boolean stop();
+ * Boolean save(String path);
  * Boolean isShowing();
  * Boolean show();
  * Boolean hide();
